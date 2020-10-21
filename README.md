@@ -29,11 +29,7 @@ npm install
 node antiraid.js
 ```
 
-## Run tests
 
-```sh
-npm run test
-```
 
 ## Author
 

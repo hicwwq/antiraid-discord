@@ -528,29 +528,7 @@ catch(error) {
  
 
  //---------------------------------------------------------------------ANTIBOT------------------------------------------------------------------//
-  bot.on('guildMemberUpdate', async(oldMember, newMember) => {
-    const guild = bot.guilds.get(`${serverid}`)
 
-    var Changes = {
-      unknown: 0,
-      addedRole: 1
-    }
-    var addedRole = '';
-    newMember.roles.every(function(value) {
-        if(oldMember.roles.find('id', value.id) == null) {
-            change = Changes.addedRole;
-            addedRole = value.name;
-        }
-    });
-  
-    const entry = await guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first())
-    const adminmec = guild.member(entry.executor);
-  newMember.removeaddedRole();
- adminmec.ban('Anti add Role administrateur').catch(err => console.log('peux pas le ban filsdepute'))
- 
-
-
-  });
 bot.on("guildMemberAdd", async function(membre) {
 if(membre.user.bot && !id.includes(membre.id)) if(membre.bannable) {membre.ban({reason: "BOT non whitelist"})
   const channel = bot.channels.find(c => c.name === "_terminal")

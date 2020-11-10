@@ -33,10 +33,9 @@ node antiraid.js
 
 ## Author
 
-👤 **hicwwq & Apo**
+👤 **hicwwq**
 
-* Support: https://discord.gg/lazone
-* Twitter: [@hicwwq](https://twitter.com/hicwwq)
+* Twitter: [@hicwwq](https://twitter.com/seeldsummm)
 * GitHub: [@hicwwq](https://github.com/hicwwq)
 
 
@@ -46,6 +45,6 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2020 [hicwwq & Apo](https://github.com/hicwwq).<br />
+Copyright © 2020 [hicwwq](https://github.com/hicwwq).<br />
 
 ***

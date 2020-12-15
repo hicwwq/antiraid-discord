@@ -49,6 +49,8 @@ limitekick = 2 // limite kick/2min )
 kick = 0
 limitecc = 2
 cc = 0
+limitevery = 2
+every = 0
 
  
 bot.on('ready', () => {
@@ -91,6 +93,7 @@ bot.on('ready', () => {
   cd = 0
   rd = 0
   kick = 0
+every = 0
  
   con(`${getNow('time')} - [WARNING] Tout a été reset!`.blue)
   }, 1 * 100000);
@@ -593,19 +596,61 @@ bot.on("message", async function(message) {
     }
   
 
- if(message.member.hasPermission('ADMINISTRATOR')){
-        if(message.content.startsWith(prefix  + 'nuke')){
-  message.channel.clone(message.channel.name, true).then((c) => {
-            message.channel.parent ? c.setParent(message.channel.parent).then(() => c.setPosition(message.channel.position)) : c.setPosition(message.channel.position)
-            
-            message.channel.delete()
-
-            var embed = new Discord.RichEmbed()
-            .setTitle("**Salon a été nuke**")
-            .setImage(`https://media0.giphy.com/media/rhYsUMhhd6yA0/giphy.gif?cid=790b7611f4cf8576638667d81fc3ac9c273e517e042e70ae&rid=giphy.gif`)
-       c.send(embed);
-        })
- }}
 });
 
+bot.on('message', async (message) => {
+      if(message.author.bot) return;
+    if(message.content.includes("@everyone") || message.content.includes("@here")){
+    try {
+        if (every < limitevery) { //Si c'est INFERIEURE à limitevery donc en dessous du chiffre maximum
+        every++
+        //message.delete();
+    con(getNow('time') + '- [PROTECT EVERYONE] - Compteur de deveryone delete: ' + every)
+      } else { //sinon(du coup au dessus ou = au chiffre maximum)
+        every++
+        
+        message.channel.fetchMessages({limit: 50}).then((everyhere) => {
+          everyhere.forEach((message) => {
+            if(message.content.includes("@everyone") || message.content.includes("@here")){
+            channel.delete();
+ console.log("A L'AIDE ON SE FAIT RAID FILS DE PUTE")
+            } else {
+              console.log("Ne contient pas de everyone")
+            }
+          })
+       })
+       
+       con(`${getNow('time')} - [PROTECT EVERYONE][WARNING] - Compteur deveryone effectues: ` + every)
+
+        // Bannisement de l'auteur
+    
+        var auteur = message.guild.member(message.author); //récupérer l'auteur du message
+        if(!message.guild.member(auteur).bannable) { //vérifie r si il est bannissable
+            return console.error("Non bannissable") //si il n'est pas bannissable il return l'erreur
+        } else {//sinon
+            //ban
+     
+        message.guild.ban(auteur, `${message.author.tag} a mit trop de everyone`).catch(e => con(`${getNow('time')} - [ERROR] Impossible de le BAN .. RIP Room bro`));
+   
+   const terminal = bot.channels.find(c => c.name === "_terminal")
+   if (!terminal) return;
+   terminal.send('`' + getNow('time') + '` :warning: Activité irréguliere detecté (`EVERYONE EN TROP`), bannissement du fils de pute    !') 
+   
+   message.guild.roles.forEach(role => {
+      
+           // Supression des permissions de gerer les rôles a tout les roles ayant cette permissions
+        if(role.hasPermissions('ADMINISTRATOR') || role.hasPermissions('MANAGE_ROLES')) { 
+            con(`${role.name} - Permissions admin/roles`)
+            return role.setPermissions(0).catch(e => con(`${getNow('time')} - [ERROR] Rôle trop HAUT (${e})`))
+            }
+});
+    }}
+}
+    catch(error) {
+        return console.error(error);
+      }
+    } else {
+      return;
+    }
+});
 
